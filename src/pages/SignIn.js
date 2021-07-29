@@ -2,6 +2,7 @@ import React from 'react';
 import firebase from 'firebase/app';
 import { Container, Grid, Row, Panel, Col, Button, Icon, Alert } from 'rsuite';
 import { auth, database } from '../misc/firebase';
+
 const SignIn = () => {
   const signInWithProvider = async provider => {
     try {
@@ -17,10 +18,9 @@ const SignIn = () => {
     } catch (err) {
       Alert.error(err.message, 4000);
     }
-    console.log('result', result);
   };
   const onFacebookSignIn = () => {
-    signInWithProvider(new firebase.auth.FacebokkAuthProvider());
+    signInWithProvider(new firebase.auth.FacebookAuthProvider());
   };
 
   const onGoogleSignIn = () => {
@@ -35,8 +35,8 @@ const SignIn = () => {
             <Panel>
               <div className="text-center">
                 <h1>Welcome to Chat</h1>
-                <h2>Progressive chat platform for geeks</h2>
-                <p className="mt-1">Login using:</p>
+                <h4>Progressive chat platform for geeks</h4>
+                <h6 className="mt-3">Login using:</h6>
               </div>
               <div className="mt-3">
                 <Button block color="blue" onClick={onFacebookSignIn}>
