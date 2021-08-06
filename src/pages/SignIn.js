@@ -9,7 +9,7 @@ const SignIn = () => {
       const { additionalUserInfo, user } = await auth.signInWithPopup(provider);
 
       if (additionalUserInfo.isNewUser) {
-        database.ref(`/profiles/${user.uid}`).set({
+        await database.ref(`/profiles/${user.uid}`).set({
           name: user.displayName,
           createdAt: firebase.database.ServerValue.TIMESTAMP,
         });
