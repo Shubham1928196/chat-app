@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useRef, useState } from 'react';
 import {
-    Alert,
+  Alert,
   Button,
   ControlLabel,
   Form,
@@ -13,6 +13,7 @@ import {
 } from 'rsuite';
 import firebase from 'firebase/app';
 import { useModalState } from '../../misc/custom-hooks';
+import { database } from '../../misc/firebase';
 
 const { StringType } = Schema.Types;
 
@@ -37,28 +38,27 @@ const CreateRoomBtnModal = () => {
   }, []);
 
   const onSubmit = async () => {
-      (!formRef.current.check()) {
-        return;
-      }
+    if (!formRef.current.check()) {
+      return;
+    }
 
-      setIsLoading(true);
+    setIsLoading(true);
 
-      const newRoomdata = {
-          ...formValue,
-          createdAt: firebase.database.ServerValue.TIMESTAMP
-      }
+    const newRoomdata = {
+      ...formValue,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+    };
 
-      try{
-            await database.ref('rooms').push(newRoomdata);
-            Alert.info(`${formValue.name} has been created`, 4000);
-            setIsLoading(false);
-            setFormValue(INITIAL_FORM);
-            close();
-      }
-      catch(err){
-          setIsLoading(false);
-          Alert.err(err.message, 4000);
-      }
+    try {
+      await database.ref('rooms').push(newRoomdata);
+      Alert.info(`${formValue.name} has been created`, 4000);
+      setIsLoading(false);
+      setFormValue(INITIAL_FORM);
+      close();
+    } catch (err) {
+      setIsLoading(false);
+      Alert.err(err.message, 4000);
+    }
   };
 
   return (
@@ -96,7 +96,12 @@ const CreateRoomBtnModal = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button block appearance="primary" onClick={onSubmit} disabled={isLoading}>
+          <Button
+            block
+            appearance="primary"
+            onClick={onSubmit}
+            disabled={isLoading}
+          >
             Create new chat room
           </Button>
         </Modal.Footer>
